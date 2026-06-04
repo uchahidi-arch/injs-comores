@@ -1,59 +1,29 @@
-import { Medal, Flag, Globe, CircleDot, Crown, Building2 } from 'lucide-react'
-
-const partners = [
-  { icon: Medal, name: 'CIO' },
-  { icon: Flag, name: 'COSIC' },
-  { icon: Globe, name: 'JIOI 2027' },
-  { icon: CircleDot, name: 'FIFA' },
-  { icon: Crown, name: 'FIDE' },
-  { icon: Building2, name: 'Ministère' },
-]
+const partners = ['CIO', 'COSIC', 'JIOI 2027', 'FIFA', 'FIDE', 'Ministère de la Jeunesse']
 
 export default function Partners() {
   return (
-    <div
-      style={{ borderTop: '1px solid var(--gris-2)', borderBottom: '1px solid var(--gris-2)', background: 'var(--ivoire)' }}
-      className="px-4 sm:px-10"
-    >
-      <div style={{ maxWidth: '1200px' }} className="mx-auto flex items-center h-14 sm:h-16 gap-0">
-        <div
-          style={{
-            fontSize: '9.5px',
-            color: 'var(--fumee)',
-            letterSpacing: '0.16em',
-            paddingRight: '20px',
-            borderRight: '1px solid var(--gris-2)',
-            whiteSpace: 'nowrap',
-          }}
-          className="font-bold uppercase flex-shrink-0 hidden sm:block"
-        >
-          Partenaires officiels
+    <section style={{ background: '#fff', borderBottom: '1px solid var(--gris-2)', padding: '32px 40px' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '40px' }}>
+        <div style={{
+          fontSize: '9px', fontWeight: 700, letterSpacing: '0.2em',
+          color: 'var(--fumee)', fontFamily: 'var(--font-syne)',
+          whiteSpace: 'nowrap', flexShrink: 0,
+        }}>
+          PARTENAIRES OFFICIELS
         </div>
-        <div
-          style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}
-          className="flex items-center gap-6 sm:gap-8 sm:pl-8 w-full"
-        >
+        <div style={{ width: '1px', height: '20px', background: 'var(--gris-2)', flexShrink: 0 }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '40px', flexWrap: 'wrap' }}>
           {partners.map((p) => (
-            <div
-              key={p.name}
-              style={{ opacity: 0.4 }}
-              className="flex items-center gap-1.5 flex-shrink-0 transition-opacity hover:opacity-70"
-            >
-              <div
-                style={{ width: '26px', height: '26px', background: 'var(--gris-2)', borderRadius: '4px' }}
-                className="flex items-center justify-center"
-              >
-                <p.icon size={12} style={{ color: 'var(--fumee)' }} />
-              </div>
-              <span
-                style={{ fontSize: '11px', fontWeight: 700, color: 'var(--fumee)', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}
-              >
-                {p.name}
-              </span>
-            </div>
+            <span key={p} style={{
+              fontSize: '12px', fontWeight: 600, color: 'var(--gris-2)',
+              fontFamily: 'var(--font-syne)', letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+            }}>
+              {p}
+            </span>
           ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }

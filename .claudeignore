@@ -1,0 +1,24 @@
+# Build & cache — jamais utiles pour le code source
+.next/
+.turbo/
+out/
+dist/
+build/
+
+# Dépendances — trop volumineuses, inutiles à lire
+node_modules/
+
+# Dossier vestigial / doublon
+site/
+
+# Assets binaires
+public/
+
+# Fichiers générés automatiquement
+next-env.d.ts
+tsconfig.tsbuildinfo
+package-lock.json
+
+# Configs plates — inutiles sauf si modifiées
+postcss.config.mjs
+eslint.config.mjs

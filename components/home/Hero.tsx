@@ -1,117 +1,244 @@
+'use client'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowRight, LayoutGrid } from 'lucide-react'
+import Image from 'next/image'
+
+const slides = [
+  {
+    tag: 'Programme Action Citoyen',
+    title: '2 700 jeunes mobilisés pour les valeurs citoyennes et les JIOI 2027',
+    href: '/jeunesse/action-citoyen',
+    cta: 'Découvrir le programme →',
+    date: '3 mars 2026',
+    image: '/benevolat_2027.jpg',
+    imageAlt: 'Jeunes volontaires — Programme Action Citoyen INJS',
+  },
+  {
+    tag: 'Actualité',
+    title: 'Les Comores choisissent la mascotte des JIOI 2027',
+    href: '/actualites/cosic-jioi-2027',
+    cta: "Lire l'article →",
+    date: '2 mai 2026',
+    image: '/mascotte_comores.jpg',
+    imageAlt: 'Mascotte officielle des JIOI 2027 — Comores',
+  },
+  {
+    tag: 'Institution',
+    title: 'Institut National de la Jeunesse & des Sports',
+    href: '/institution/presentation',
+    cta: 'Présentation & missions →',
+    date: null,
+    image: '/accueil.jpg',
+    imageAlt: 'Terrain sportif — Comores',
+  },
+]
+
+const css = `
+  @keyframes zoomDoux {
+    0%   { transform: scale(1); }
+    100% { transform: scale(1.05); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-kb {
+    animation: zoomDoux 6s ease-out forwards;
+  }
+
+  .hero-tag {
+    animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+  }
+  .hero-title {
+    animation: fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) forwards;
+    animation-delay: 0.25s;
+    opacity: 0;
+  }
+  .hero-link {
+    animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+    animation-delay: 0.4s;
+    opacity: 0;
+  }
+
+  .hero-lire {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    font-family: var(--font-syne);
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    padding-bottom: 2px;
+    transition: border-color 0.2s, gap 0.2s;
+  }
+  .hero-lire:hover {
+    border-color: #fff;
+    gap: 14px;
+  }
+
+  .hero-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.25s, transform 0.25s;
+  }
+  .hero-dot.active {
+    background: #fff;
+    transform: scale(1.3);
+  }
+`
 
 export default function Hero() {
+  const [current, setCurrent] = useState(0)
+  const [animKey, setAnimKey] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((c) => (c + 1) % slides.length)
+      setAnimKey((k) => k + 1)
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const handleDot = (i: number) => {
+    setCurrent(i)
+    setAnimKey((k) => k + 1)
+  }
+
   return (
-    <section
-      style={{
-        position: 'relative',
-        minHeight: 'max(88vh, 600px)',
-        backgroundImage: "url('/accueil.jpg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        display: 'flex',
-        alignItems: 'flex-end',
-      }}
-    >
-      {/* Overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(135deg, rgba(10,40,18,0.88) 0%, rgba(26,77,46,0.82) 100%)',
-          zIndex: 1,
-        }}
-      />
+    <section style={{
+      position: 'relative',
+      height: 'calc(100vh - 88px)',
+      minHeight: '560px',
+      overflow: 'hidden',
+      background: '#0a0a0a',
+    }}>
+      <style>{css}</style>
 
-      <div
-        style={{ position: 'relative', zIndex: 2, width: '100%', maxWidth: '1200px' }}
-        className="mx-auto px-4 sm:px-10 pt-[80px] sm:pt-[120px] pb-10 sm:pb-20"
-      >
-        {/* Badge */}
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: 'rgba(255,255,255,0.12)',
-            border: '1px solid rgba(255,255,255,0.25)',
-            borderRadius: '3px',
-            padding: '5px 12px',
-            fontSize: '10px',
-            fontWeight: 600,
-            color: 'rgba(255,255,255,0.85)',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            marginBottom: '24px',
-          }}
-        >
-          <span
-            style={{ width: '6px', height: '6px', background: 'var(--vert)', borderRadius: '50%' }}
-            className="animate-blink"
+      {/* Slides */}
+      {slides.map((s, i) => {
+        const isActive = i === current
+        return (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              opacity: isActive ? 1 : 0,
+              transition: 'opacity 1s ease',
+              pointerEvents: isActive ? 'auto' : 'none',
+            }}
+          >
+            {/* Image Ken Burns */}
+            <div
+              key={isActive ? `kb-${i}-${animKey}` : `kb-${i}-idle`}
+              className={isActive ? 'hero-kb' : ''}
+              style={{ position: 'absolute', inset: 0, transformOrigin: 'center center' }}
+            >
+              <Image
+                src={s.image}
+                alt={s.imageAlt}
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                priority={i === 0}
+              />
+            </div>
+
+            {/* Gradient latéral gauche → transparent (style HeroCarousel) */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(90deg, rgba(10,10,10,0.78) 0%, rgba(10,10,10,0.30) 50%, rgba(10,10,10,0) 100%)',
+            }} />
+            {/* Léger gradient bas pour les dots */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 30%)',
+            }} />
+
+            {/* Contenu — bas gauche, aligné sur --site-px */}
+            <div style={{
+              position: 'absolute',
+              bottom: '72px',
+              left: 'var(--site-px)',
+              right: 'var(--site-px)',
+              maxWidth: '620px',
+            }}>
+              {/* Tag + date */}
+              <div
+                key={isActive ? `tag-${i}-${animKey}` : `tag-${i}-idle`}
+                className={isActive ? 'hero-tag' : ''}
+                style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}
+              >
+                <span style={{
+                  fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em',
+                  textTransform: 'uppercase', color: '#fff',
+                  background: 'var(--vert)', padding: '4px 10px',
+                  fontFamily: 'var(--font-syne)',
+                }}>
+                  {s.tag}
+                </span>
+                {s.date && (
+                  <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', fontFamily: 'var(--font-syne)' }}>
+                    {s.date}
+                  </span>
+                )}
+              </div>
+
+              {/* Titre */}
+              <h2
+                key={isActive ? `title-${i}-${animKey}` : `title-${i}-idle`}
+                className={isActive ? 'hero-title' : ''}
+                style={{
+                  fontFamily: 'var(--font-syne)',
+                  fontWeight: 800,
+                  fontSize: 'clamp(26px, 3.8vw, 56px)',
+                  color: '#fff',
+                  lineHeight: 1.08,
+                  letterSpacing: '-0.02em',
+                  marginBottom: '28px',
+                  margin: '0 0 28px',
+                }}
+              >
+                {s.title}
+              </h2>
+
+              {/* Lire l'article */}
+              <Link
+                key={isActive ? `lnk-${i}-${animKey}` : `lnk-${i}-idle`}
+                href={s.href}
+                className={`hero-lire${isActive ? ' hero-link' : ''}`}
+              >
+                {s.cta}
+              </Link>
+            </div>
+          </div>
+        )
+      })}
+
+      {/* Dots — centrés en bas */}
+      <div style={{
+        position: 'absolute', bottom: '28px', left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex', gap: '10px', zIndex: 10,
+      }}>
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => handleDot(i)}
+            className={`hero-dot${i === current ? ' active' : ''}`}
+            aria-label={`Slide ${i + 1}`}
           />
-          Portail officiel
-        </div>
-
-        {/* Title */}
-        <h1
-          style={{ lineHeight: 1.0, letterSpacing: '-0.03em', color: '#fff', marginBottom: '24px' }}
-          className="font-[family-name:var(--font-syne)] font-extrabold text-[clamp(40px,5.5vw,82px)]"
-        >
-          <span
-            style={{
-              display: 'block',
-              color: 'rgba(255,255,255,0.55)',
-              fontWeight: 400,
-              fontSize: '0.65em',
-              letterSpacing: '-0.01em',
-              marginBottom: '4px',
-            }}
-            className="font-[family-name:var(--font-dm-sans)]"
-          >
-            Institut National de la
-          </span>
-          Jeunesse<br />& Sports
-        </h1>
-
-        {/* Sub */}
-        <p
-          style={{
-            fontSize: '15px',
-            fontWeight: 400,
-            color: '#ffffff',
-            lineHeight: 1.7,
-            maxWidth: '520px',
-            marginBottom: '40px',
-            textShadow: '0 1px 8px rgba(0,0,0,0.5)',
-          }}
-        >
-          Le portail officiel de l&apos;État comorien pour organiser, structurer et valoriser le sport et la jeunesse aux Comores.
-        </p>
-
-        {/* Actions */}
-        <div className="flex gap-3 flex-wrap">
-          <Link
-            href="/services"
-            style={{ background: 'var(--vert)', borderRadius: '4px', letterSpacing: '0.04em' }}
-            className="inline-flex items-center gap-2 text-white px-5 sm:px-7 py-3 sm:py-3.5 text-[13px] font-bold no-underline font-[family-name:var(--font-syne)] transition hover:-translate-y-0.5 hover:shadow-lg"
-          >
-            <LayoutGrid size={11} />
-            Accéder aux services
-          </Link>
-          <Link
-            href="/federations"
-            style={{
-              background: 'rgba(255,255,255,0.1)',
-              border: '1.5px solid rgba(255,255,255,0.3)',
-              borderRadius: '4px',
-            }}
-            className="inline-flex items-center gap-2 text-white px-5 sm:px-7 py-3 sm:py-3.5 text-[13px] font-medium no-underline transition hover:bg-white/20"
-          >
-            Les fédérations <ArrowRight size={11} />
-          </Link>
-        </div>
+        ))}
       </div>
     </section>
   )

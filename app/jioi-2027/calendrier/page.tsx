@@ -274,7 +274,7 @@ export default function JioiCalendrierPage() {
 
               <div className="jc-events">
                 {jour.evenements.map((ev, j) => (
-                  <div key={j} className={`jc-event${ev.special ? ' special' : ''}`}>
+                  <div key={j} className={`jc-event${('special' in ev && ev.special) ? ' special' : ''}`}>
                     <div className="jc-event-heure">{ev.heure}</div>
                     <div className="jc-event-sport">{ev.sport}</div>
                     <div className="jc-event-epreuve">{ev.epreuve}</div>

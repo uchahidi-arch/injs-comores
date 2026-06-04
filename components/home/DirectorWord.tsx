@@ -181,7 +181,7 @@ export default function DirectorWord() {
             partenaire dans cette dynamique nationale. Ensemble, nous bâtirons un sport
             comorien fort, visible et reconnu à l&apos;échelle de la région.
           </p>
-          <Link href="/institution/direction" className="dw-btn">
+          <Link href="/institution/organigramme" className="dw-btn">
             Lire le message complet →
           </Link>
         </div>

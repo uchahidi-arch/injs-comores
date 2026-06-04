@@ -26,48 +26,42 @@ const directeurs = [
 
 const departements = [
   {
-    icon: "🏆",
-    couleur: "sport",
+    num: "01",
     titre: "Département sport",
     description:
       "Coordination des fédérations nationales, gestion des compétitions officielles et suivi des athlètes de haut niveau.",
     effectif: "12 agents",
   },
   {
-    icon: "👥",
-    couleur: "jeunesse",
+    num: "02",
     titre: "Département jeunesse",
     description:
       "Conception et mise en œuvre des programmes d'encadrement, de volontariat et d'action citoyenne pour la jeunesse comorienne.",
     effectif: "8 agents",
   },
   {
-    icon: "🎓",
-    couleur: "formation",
+    num: "03",
     titre: "Département formations",
     description:
       "Organisation des formations pour les encadrants sportifs, arbitres, entraîneurs et responsables fédéraux.",
     effectif: "6 agents",
   },
   {
-    icon: "🏗️",
-    couleur: "infra",
+    num: "04",
     titre: "Département infrastructures",
     description:
       "Gestion, maintenance et développement des équipements sportifs sur les trois îles de l'archipel.",
     effectif: "15 agents",
   },
   {
-    icon: "💼",
-    couleur: "admin",
+    num: "05",
     titre: "Administration & finances",
     description:
       "Gestion administrative, budgétaire et comptable de l'Institut. Ressources humaines et marchés publics.",
     effectif: "10 agents",
   },
   {
-    icon: "📢",
-    couleur: "com",
+    num: "06",
     titre: "Communication & médias",
     description:
       "Rayonnement institutionnel, relations presse, production de contenus et gestion des plateformes numériques.",
@@ -75,58 +69,160 @@ const departements = [
   },
 ]
 
-const iconColors: Record<string, { bg: string; color: string }> = {
-  sport:    { bg: "#E1F5EE", color: "#0F6E56" },
-  jeunesse: { bg: "#E6F1FB", color: "#185FA5" },
-  formation:{ bg: "#EEEDFE", color: "#534AB7" },
-  infra:    { bg: "#FAEEDA", color: "#854F0B" },
-  admin:    { bg: "#F1EFE8", color: "#5F5E5A" },
-  com:      { bg: "#FBEAF0", color: "#993556" },
-}
+
 
 export default function OrganigrammePage() {
   return (
     <div style={{ minHeight: "100vh", background: "white" }}>
       <style>{`
-        .org-inner { max-width: 1080px; margin: 0 auto; padding: 56px 40px 80px; }
+        .org-inner { max-width: 1100px; margin: 0 auto; padding: 60px 40px 80px; }
 
-        /* Section labels */
-        .org-section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #888; margin-bottom: 8px; display: block; font-family: var(--font-syne); }
-        .org-section-title { font-size: 20px; font-weight: 500; color: var(--encre); margin-bottom: 28px; font-family: var(--font-syne); }
+        .org-section-label {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--vert);
+          font-family: var(--font-syne);
+          margin-bottom: 14px;
+        }
+        .org-section-title {
+          font-size: 30px;
+          font-weight: 800;
+          font-family: var(--font-syne);
+          color: var(--encre);
+          margin: 0 0 20px;
+          line-height: 1.15;
+        }
+
+        /* Mot du directeur */
+        .org-mot { max-width: 800px; margin: 0 0 72px; }
+        .org-mot p {
+          font-size: 17px;
+          color: #555;
+          line-height: 1.85;
+          font-family: var(--font-syne);
+          margin: 0 0 14px;
+        }
+        .org-mot p:last-of-type { margin-bottom: 20px; }
+        .org-mot-sig {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--encre);
+          font-family: var(--font-syne);
+        }
+        .org-mot-sig span {
+          display: block;
+          font-size: 13px;
+          font-weight: 400;
+          color: #888;
+          margin-top: 2px;
+        }
+
+
 
         /* Direction */
-        .org-gouvernance { margin-bottom: 64px; }
-        .org-dir-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .org-gouvernance { margin-bottom: 80px; }
+        .org-dir-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
 
-        .org-dir-card { display: flex; background: white; border: 0.5px solid #e8e8e4; border-radius: 12px; overflow: hidden; transition: border-color 0.15s; }
-        .org-dir-card:hover { border-color: #d0d0cc; }
-
-        .org-dir-avatar { width: 100px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 500; border-right: 0.5px solid #e8e8e4; }
-        .org-dir-avatar.green { background: #E1F5EE; color: #0F6E56; }
-        .org-dir-avatar.neutral { background: #f5f5f3; color: #888; }
-
-        .org-dir-body { padding: 20px; flex: 1; }
-        .org-dir-poste { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 6px; display: block; font-family: var(--font-syne); }
-        .org-dir-nom { font-size: 16px; font-weight: 500; color: var(--encre); margin: 0 0 10px; font-family: var(--font-syne); }
-        .org-dir-desc { font-size: 13px; color: #666; line-height: 1.75; margin: 0; font-family: var(--font-syne); }
+        .org-dir-card {
+          border: 1px solid #eee;
+          border-radius: 8px;
+          padding: 28px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .org-dir-card:hover {
+          border-color: var(--vert-2);
+          box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        }
+        .org-dir-poste {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: var(--vert);
+          font-family: var(--font-syne);
+        }
+        .org-dir-nom {
+          font-size: 20px;
+          font-weight: 800;
+          color: var(--encre);
+          font-family: var(--font-syne);
+          margin: 0;
+          line-height: 1.2;
+        }
+        .org-dir-desc {
+          font-size: 15px;
+          color: #666;
+          line-height: 1.75;
+          font-family: var(--font-syne);
+          margin: 0;
+        }
 
         /* Départements */
-        .org-dept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .org-dept-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+          margin-top: 32px;
+        }
+        .org-dept-card {
+          border: 1px solid #eee;
+          border-radius: 8px;
+          padding: 28px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .org-dept-card:hover {
+          border-color: var(--vert-2);
+          box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        }
+        .org-dept-num {
+          font-size: 13px;
+          font-weight: 700;
+          color: var(--vert);
+          font-family: var(--font-syne);
+          letter-spacing: 0.08em;
+        }
+        .org-dept-titre {
+          font-size: 18px;
+          font-weight: 800;
+          color: var(--encre);
+          font-family: var(--font-syne);
+          margin: 0;
+          line-height: 1.2;
+        }
+        .org-dept-desc {
+          font-size: 15px;
+          color: #666;
+          line-height: 1.75;
+          font-family: var(--font-syne);
+          margin: 0;
+          flex: 1;
+        }
+        .org-dept-badge {
+          display: inline-block;
+          font-size: 12px;
+          font-weight: 600;
+          color: var(--vert);
+          font-family: var(--font-syne);
+          margin-top: 4px;
+        }
 
-        .org-dept-card { background: white; border: 0.5px solid #e8e8e4; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; transition: border-color 0.15s; }
-        .org-dept-card:hover { border-color: #d0d0cc; }
-
-        .org-dept-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; font-size: 18px; }
-        .org-dept-titre { font-size: 14px; font-weight: 500; color: var(--encre); margin-bottom: 8px; font-family: var(--font-syne); }
-        .org-dept-desc { font-size: 13px; color: #666; line-height: 1.7; font-family: var(--font-syne); flex: 1; }
-        .org-dept-footer { margin-top: 16px; padding-top: 12px; border-top: 0.5px solid #f0f0ed; }
-        .org-dept-badge { display: inline-block; font-size: 11px; font-weight: 500; color: #0F6E56; background: #E1F5EE; padding: 2px 8px; border-radius: 20px; font-family: var(--font-syne); }
-
-        @media (max-width: 860px) { .org-dept-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 860px) {
+          .org-stats { grid-template-columns: 1fr 1fr; }
+        }
         @media (max-width: 768px) {
-          .org-inner { padding: 36px 20px 60px; }
+          .org-inner { padding: 40px 20px 60px; }
           .org-dir-grid { grid-template-columns: 1fr; }
           .org-dept-grid { grid-template-columns: 1fr; }
+          .org-stats { grid-template-columns: 1fr 1fr; }
+          .org-section-title { font-size: 24px; }
         }
       `}</style>
 
@@ -140,19 +236,35 @@ export default function OrganigrammePage() {
 
       <div className="org-inner">
 
-        {/* Gouvernance */}
+        {/* Mot du directeur */}
+        <div className="org-mot">
+          <div className="org-section-label">Mot du Directeur général</div>
+          <h2 className="org-section-title">Les Comores entrent dans une nouvelle ère sportive</h2>
+          <p>
+            L'INJS se donne les outils pour être à la hauteur de cette ambition. Les Jeux des Îles de l'Océan Indien 2027 représentent une opportunité historique pour notre pays. Nous travaillons chaque jour à structurer le sport comorien — ses fédérations, ses athlètes, ses infrastructures — pour que les Comores se présentent à cette échéance avec la dignité et l'organisation qu'elle mérite.
+          </p>
+          <p>
+            L'INJS s'engage à accompagner chaque fédération, chaque jeune talent et chaque partenaire dans cette dynamique nationale. Notre institution ne se limite pas à administrer le sport : elle le construit, elle le pense, elle le défend. Chaque décision prise ici a des répercussions directes sur le terrain, sur les athlètes, sur les jeunes que nous accompagnons dans leur parcours.
+          </p>
+          <p>
+            Ensemble, nous bâtirons un sport comorien fort, visible et reconnu à l'échelle de la région.
+          </p>
+          <div className="org-mot-sig">
+            Mohmed Ali Chahidi
+            <span>Directeur général de l'INJS</span>
+          </div>
+        </div>
+
+        {/* Direction */}
         <div className="org-gouvernance">
-          <span className="org-section-label">Gouvernance</span>
+          <div className="org-section-label">Gouvernance</div>
           <h2 className="org-section-title">Direction générale</h2>
           <div className="org-dir-grid">
             {directeurs.map((d) => (
               <div key={d.nom} className="org-dir-card">
-                <div className={`org-dir-avatar ${d.variant}`}>{d.initiales}</div>
-                <div className="org-dir-body">
-                  <span className="org-dir-poste">{d.poste}</span>
-                  <h3 className="org-dir-nom">{d.nom}</h3>
-                  <p className="org-dir-desc">{d.description}</p>
-                </div>
+                <div className="org-dir-poste">{d.poste}</div>
+                <h3 className="org-dir-nom">{d.nom}</h3>
+                <p className="org-dir-desc">{d.description}</p>
               </div>
             ))}
           </div>
@@ -160,28 +272,17 @@ export default function OrganigrammePage() {
 
         {/* Départements */}
         <div>
-          <span className="org-section-label">Structure</span>
+          <div className="org-section-label">Structure</div>
           <h2 className="org-section-title">Nos départements</h2>
           <div className="org-dept-grid">
-            {departements.map((d) => {
-              const colors = iconColors[d.couleur]
-              return (
-                <div key={d.titre} className="org-dept-card">
-                  <div
-                    className="org-dept-icon"
-                    style={{ background: colors.bg, color: colors.color }}
-                    aria-hidden="true"
-                  >
-                    {d.icon}
-                  </div>
-                  <div className="org-dept-titre">{d.titre}</div>
-                  <p className="org-dept-desc">{d.description}</p>
-                  <div className="org-dept-footer">
-                    <span className="org-dept-badge">{d.effectif}</span>
-                  </div>
-                </div>
-              )
-            })}
+            {departements.map((d) => (
+              <div key={d.titre} className="org-dept-card">
+                <div className="org-dept-num">{d.num}</div>
+                <h3 className="org-dept-titre">{d.titre}</h3>
+                <p className="org-dept-desc">{d.description}</p>
+                <span className="org-dept-badge">{d.effectif}</span>
+              </div>
+            ))}
           </div>
         </div>
 
